@@ -36,11 +36,11 @@ instructions here: https://www.cockroachlabs.com/docs/stable/orchestrate-cockroa
 ```
 $ kubectl create clusterrolebinding $USER-cluster-admin-binding --clusterrole=cluster-admin --user=mario-leander.reimer@qaware.de
 
-$ kubectl create -f database/cockroachdb-statefulset.yaml
+$ kubectl create -f database/cockroachdb/cockroachdb-statefulset.yaml
 $ kubectl get pods
 $ kubectl get persistentvolumes
 
-$ kubectl create -f database/cluster-init.yaml
+$ kubectl create -f database/cockroachdb/cluster-init.yaml
 $ kubectl get job cluster-init
 $ kubectl get pods
 ```
@@ -55,14 +55,14 @@ $ kubectl run cockroachdb -it --image=cockroachdb/cockroach --rm --restart=Never
 Alternatively, we will create a Mongo DB cluster and storage.
 
 ```
-$ kubectl apply -f database/gce-ssd-storageclass.yaml
+$ kubectl apply -f database/mongodb/gce-ssd-storageclass.yaml
 
 $ gcloud compute disks create --size 10GB --type pd-ssd pd-ssd-disk-1
 $ gcloud compute disks create --size 10GB --type pd-ssd pd-ssd-disk-2
 $ gcloud compute disks create --size 10GB --type pd-ssd pd-ssd-disk-3
 $ gcloud compute disks list
 
-$ kubectl apply -f database/gce-ssd-persistentvolumes.yaml
+$ kubectl apply -f database/mongodb/gce-ssd-persistentvolumes.yaml
 $ kubectl get persistentvolumes
 
 $ TMPFILE=$(mktemp)
@@ -70,8 +70,25 @@ $ /usr/bin/openssl rand -base64 741 > $TMPFILE
 $ kubectl create secret generic shared-bootstrap-data –from file=internal-auth-mongodb-keyfile=$TMPFILE
 $ rm $TMPFILE
 
-$ kubectl apply -f database/mongodb-statefulset.yaml
+$ kubectl apply -f database/mongodb/mongodb-statefulset.yaml
 $ kubectl get all
 
 $ open http://pauldone.blogspot.com/2017/06/deploying-mongodb-on-kubernetes-gke25.html
+```
+
+### Building Block 3: Messaging Infrastructure
+
+Next, we will deploy different messaging systems for our communication infrastructure. As possible
+input source we will deploy Eclipse Mosquitto, and as central messaging fabric we are going to use
+Apache Artemis.
+
+```
+$ kubectl apply -f messaging/mosquitto/
+$ kubectl get pods
+
+$ kubectl apply -f messaging/artemis/
+$ kubectl get pods
+
+$ kubectl port-forward message-queue-785589d777-gqszs 8161
+$ open http://localhost:8161/
 ```

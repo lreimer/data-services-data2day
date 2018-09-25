@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.kompose.service: message-queue
+  name: message-queue
+spec:
+  ports:
+  - name: "admin"
+    port: 8161
+    targetPort: 8161
+  - name: "jms"
+    port: 61616
+    targetPort: 61616
+  selector:
+    io.kompose.service: message-queue

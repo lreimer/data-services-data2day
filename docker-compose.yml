@@ -3,7 +3,7 @@ version: '3'
 services:
 
   cockroach1:
-    image: cockroachdb/cockroach:v1.1.5
+    image: cockroachdb/cockroach:v2.0.5
     hostname: cockroach1
     command: start --insecure
     ports:
@@ -18,7 +18,7 @@ services:
          - postgres-db
 
   cockroach2:
-    image: cockroachdb/cockroach:v1.1.5
+    image: cockroachdb/cockroach:v2.0.5
     hostname: cockroach2
     command: start --insecure --join=cockroach1
     volumes:
@@ -31,7 +31,7 @@ services:
       - datanet
 
   cockroach3:
-    image: cockroachdb/cockroach:v1.1.5
+    image: cockroachdb/cockroach:v2.0.5
     hostname: cockroach3
     command: start --insecure --join=cockroach1
     volumes:
@@ -40,6 +40,35 @@ services:
       - cockroach1
     links:
       - cockroach1
+    networks:
+      - datanet
+
+  eclipse-mosquitto:
+    image: eclipse-mosquitto:1.4.12
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    networks:
+      - datanet
+
+  # message-queue:
+  #   image: rmohr/activemq:5.15.5
+  #   expose:
+  #     - "61616"       # the JMS port
+  #   ports:
+  #     - "8161:8161"   # the admin web UI
+  #   networks:
+  #     - datanet
+
+  message-queue:
+    image: vromero/activemq-artemis:2.6.2
+    expose:
+      - "61616"       # the JMS port
+    ports:
+      - "8161:8161"   # the admin web UI
+    environment:
+      - ARTEMIS_USERNAME=artemis
+      - ARTEMIS_PASSWORD=artemis
     networks:
       - datanet
 
