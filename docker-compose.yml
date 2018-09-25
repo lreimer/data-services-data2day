@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+
+  cockroach1:
+    image: cockroachdb/cockroach:v1.1.5
+    hostname: cockroach1
+    command: start --insecure
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+    volumes:
+      - "${PWD}/cockroach/data/cockroach1:/cockroach/cockroach-data"
+    networks:
+      datanet:
+        aliases:
+         - cockroach-db
+         - postgres-db
+
+  cockroach2:
+    image: cockroachdb/cockroach:v1.1.5
+    hostname: cockroach2
+    command: start --insecure --join=cockroach1
+    volumes:
+      - "${PWD}/cockroach/data/cockroach2:/cockroach/cockroach-data"
+    depends_on:
+      - cockroach1
+    links:
+      - cockroach1
+    networks:
+      - datanet
+
+  cockroach3:
+    image: cockroachdb/cockroach:v1.1.5
+    hostname: cockroach3
+    command: start --insecure --join=cockroach1
+    volumes:
+      - "${PWD}/cockroach/data/cockroach3:/cockroach/cockroach-data"
+    depends_on:
+      - cockroach1
+    links:
+      - cockroach1
+    networks:
+      - datanet
+
+networks:
+  datanet:
+    driver: bridge
