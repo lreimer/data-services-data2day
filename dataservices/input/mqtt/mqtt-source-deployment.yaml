@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: mqtt-source
+    LAUNCHPAD_ENABLE: "true"
+    LAUNCHPAD_COLOR: YELLOW
+    LAUNCHPAD_ROW: "2"
+  name: mqtt-source
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: mqtt-source
+    spec:
+      containers:
+      - image: lreimer/mqtt-source:1.0
+        name: mqtt-source
+        ports:
+        - containerPort: 8080
+      restartPolicy: Always

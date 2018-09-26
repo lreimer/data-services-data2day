@@ -1,0 +1,237 @@
+{
+	"info": {
+		"name": "Data Services",
+		"_postman_id": "8746e627-b099-6584-b418-5e3ed530dda5",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Hazelcast testCache GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8001/api/v1/namespaces/default/services/http:hazelcast-payara:8080/proxy/api/hazelcast/testCache",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "18080",
+					"path": [
+						"api",
+						"hazelcast",
+						"testCache"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Hazelcast testCache PUT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8001/api/v1/namespaces/default/services/http:hazelcast-payara:8080/proxy/api/hazelcast/testCache",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "18080",
+					"path": [
+						"api",
+						"hazelcast",
+						"testCache"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Hazelcast testCache POST aKey",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/plain"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "aValue"
+				},
+				"url": {
+					"raw": "http://localhost:8001/api/v1/namespaces/default/services/http:hazelcast-payara:8080/proxy/api/hazelcast/testCache/aKey",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "18080",
+					"path": [
+						"api",
+						"hazelcast",
+						"testCache",
+						"aKey"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Hazelcast testCache GET aKey",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/plain"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "aValue"
+				},
+				"url": {
+					"raw": "http://localhost:8001/api/v1/namespaces/default/services/http:hazelcast-payara:8080/proxy/api/hazelcast/testCache/aKey",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "18080",
+					"path": [
+						"api",
+						"hazelcast",
+						"testCache",
+						"aKey"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "MQTT POST event",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"vin\": \"vin-1234567890\",\n    \"latitude\": 0.9722072797539033,\n    \"longitude\": 0.8610827984292438\n}"
+				},
+				"url": {
+					"raw": "http://localhost:18081/api/mqtt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "18081",
+					"path": [
+						"api",
+						"mqtt"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET Weather London",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:18084/api/weather/London",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "18084",
+					"path": [
+						"api",
+						"weather",
+						"London"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Hazelcast weatherCache GET London",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/plain"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "aValue"
+				},
+				"url": {
+					"raw": "http://localhost:8001/api/v1/namespaces/default/services/http:hazelcast-payara:8080/proxy/api/hazelcast/weatherCache/London",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "18080",
+					"path": [
+						"api",
+						"hazelcast",
+						"weatherCache",
+						"London"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Hazelcast vehicleLocation GET vin-1",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/plain"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "aValue"
+				},
+				"url": {
+					"raw": "http://localhost:8001/api/v1/namespaces/default/services/http:hazelcast-payara:8080/proxy/api/hazelcast/vehicleLocation/vin-1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "18080",
+					"path": [
+						"api",
+						"hazelcast",
+						"vehicleLocation",
+						"vin-1"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

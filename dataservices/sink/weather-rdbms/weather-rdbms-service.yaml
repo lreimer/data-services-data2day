@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.kompose.service: weather-rdbms
+  name: weather-rdbms
+spec:
+  type: NodePort
+  ports:
+  - name: "http"
+    port: 8080
+    targetPort: 8080
+  selector:
+    io.kompose.service: weather-rdbms

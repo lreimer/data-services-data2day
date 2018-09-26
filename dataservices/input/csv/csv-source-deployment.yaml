@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: csv-source
+    LAUNCHPAD_ENABLE: "true"
+    LAUNCHPAD_COLOR: RED
+    LAUNCHPAD_ROW: "0"
+  name: csv-source
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: csv-source
+    spec:
+      containers:
+      - image: lreimer/csv-source:1.0
+        name: csv-source
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - mountPath: /data/
+          name: csv-source-data-volume
+      restartPolicy: Always
+      volumes:
+      - name: csv-source-data-volume
+        configMap:
+          name: csv-source-data

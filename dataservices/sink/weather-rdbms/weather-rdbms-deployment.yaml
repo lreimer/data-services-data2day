@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: weather-rdbms
+    LAUNCHPAD_ENABLE: "true"
+    LAUNCHPAD_COLOR: LIGHT_BLUE
+    LAUNCHPAD_ROW: "6"
+  name: weather-rdbms
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: weather-rdbms
+    spec:
+      containers:
+      - image: lreimer/weather-rdbms:1.0
+        name: weather-rdbms
+        ports:
+        - containerPort: 8080
+      restartPolicy: Always

@@ -21,7 +21,7 @@ spec:
         - containerPort: 61616
         env:
         - name: ARTEMIS_USERNAME
-          value: artemis
+          value: admin
         - name: ARTEMIS_PASSWORD
-          value: artemis
+          value: admin
       restartPolicy: Always

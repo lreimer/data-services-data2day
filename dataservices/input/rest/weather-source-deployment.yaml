@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: weather-source
+    LAUNCHPAD_ENABLE: "true"
+    LAUNCHPAD_COLOR: PURPLE
+    LAUNCHPAD_ROW: "3"
+  name: weather-source
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: weather-source
+    spec:
+      containers:
+      - image: lreimer/weather-source:1.1
+        name: weather-source
+        ports:
+        - containerPort: 8080
+      restartPolicy: Always

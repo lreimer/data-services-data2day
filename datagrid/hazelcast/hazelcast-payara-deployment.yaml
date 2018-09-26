@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: hazelcast-payara
+    hazelcast: enabled
+  name: hazelcast-payara
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: hazelcast-payara
+        hazelcast: enabled
+    spec:
+      containers:
+      - image: lreimer/hazelcast-payara:1.0
+        name: hazelcast-payara
+        ports:
+        - containerPort: 8080
+        - containerPort: 5701
+        volumeMounts:
+        - mountPath: /opt/payara/config/
+          name: hazelcast-payara-config-volume
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: hazelcast-payara-config-volume
+        configMap:
+          name: hazelcast-payara-config

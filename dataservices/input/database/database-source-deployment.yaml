@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: database-source
+    LAUNCHPAD_ENABLE: "true"
+    LAUNCHPAD_COLOR: ORANGE
+    LAUNCHPAD_ROW: "1"
+  name: database-source
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: database-source
+    spec:
+      containers:
+      - image: lreimer/database-source:1.0
+        name: database-source
+        ports:
+        - containerPort: 8080
+      restartPolicy: Always

@@ -40,6 +40,7 @@ $ kubectl create -f database/cockroachdb/cockroachdb-statefulset.yaml
 $ kubectl get pods
 $ kubectl get persistentvolumes
 
+$ kubectl create -f database/cockroachdb/cockroachdb-service.yaml
 $ kubectl create -f database/cockroachdb/cluster-init.yaml
 $ kubectl get job cluster-init
 $ kubectl get pods
@@ -91,4 +92,34 @@ $ kubectl get pods
 
 $ kubectl port-forward message-queue-785589d777-gqszs 8161
 $ open http://localhost:8161/
+```
+
+Also have a look at the Artemis Helm char found here: https://github.com/vromero/activemq-artemis-helm
+
+### Building Block 4: Data Grid
+
+We are going to use a Hazelcast IMDG embedded into a Payara Micro instance. To deploy the services
+and pods issue the following commands:
+
+```
+$ kubectl apply -f datagrid/hazelcast/
+$ kubectl get pods
+$ kubectl scale deployment hazelcast-payara --replicas=5
+
+$ open http://localhost:8001/api/v1/namespaces/default/services/http:hazelcast-payara:8080/proxy/api/application.wadl
+```
+
+### Building Block 5: Dataservices
+
+```
+$ kubectl apply -f dataservices/processors/location/
+$ kubectl apply -f dataservices/processors/weather/
+
+$ kubectl apply -f dataservices/sink/weather-file/
+$ kubectl apply -f dataservices/sink/weather-rdbms/
+
+$ kubectl apply -f dataservices/input/csv/
+$ kubectl apply -f dataservices/input/database/
+$ kubectl apply -f dataservices/input/mqtt/
+$ kubectl apply -f dataservices/input/rest/
 ```

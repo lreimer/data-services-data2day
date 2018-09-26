@@ -67,10 +67,132 @@ services:
     ports:
       - "8161:8161"   # the admin web UI
     environment:
-      - ARTEMIS_USERNAME=artemis
-      - ARTEMIS_PASSWORD=artemis
+      - ARTEMIS_USERNAME=admin
+      - ARTEMIS_PASSWORD=admin
     networks:
       - datanet
+
+  hazelcast-payara:
+    image: lreimer/hazelcast-payara:1.0
+    volumes:
+      - ./datagrid/hazelcast_default.xml:/opt/payara/config/hazelcast.xml
+    expose:
+      - "5701"        # the outbound Hazelcast port
+      - "54327"       # the multicast Hazelcast port
+    ports:
+      - "18080:8080"  # the HTTP endpoint
+    networks:
+      - datanet
+
+  mqtt-source:
+    image: lreimer/mqtt-source:1.0
+    ports:
+      - "18081:8080"  # the HTTP endpoint
+    depends_on:
+      - eclipse-mosquitto
+    links:
+      - eclipse-mosquitto
+    networks:
+      - datanet
+
+  csv-source:
+    build: ./sources/csv
+    image: lreimer/csv-source:1.0
+    volumes:
+      - ./sources/csv/import.csv:/data/import.csv
+    ports:
+      - "18082:8080"  # the HTTP endpoint
+    depends_on:
+      - message-queue
+    links:
+      - message-queue
+    networks:
+      - datanet
+
+  database-source:
+    build: ./sources/database
+    image: lreimer/database-source:1.0
+    ports:
+      - "18088:8080"  # the HTTP endpoint
+    depends_on:
+      - message-queue
+      - cockroach1
+    links:
+      - message-queue
+      - cockroach1
+    networks:
+      - datanet
+
+  weather-source:
+    image: lreimer/weather-source:1.1
+    ports:
+      - "18083:8080"  # the HTTP endpoint
+    depends_on:
+      - message-queue
+    links:
+      - message-queue
+    networks:
+      - datanet
+
+  weather-processor:
+    image: lreimer/weather-processor:1.0
+    volumes:
+      - ./datagrid/hazelcast_default.xml:/opt/payara/config/hazelcast.xml
+    expose:
+      - "5701"        # the outbound Hazelcast port
+      - "54327"       # the multicast Hazelcast port
+    ports:
+      - "18084:8080"  # the HTTP endpoint
+    depends_on:
+      - message-queue
+      - hazelcast-payara
+    links:
+      - message-queue
+      - hazelcast-payara
+    networks:
+      - datanet
+
+  location-processor:
+    image: lreimer/location-processor:1.0
+    volumes:
+      - ./datagrid/hazelcast_default.xml:/opt/payara/config/hazelcast.xml
+    expose:
+      - "5701"        # the outbound Hazelcast port
+      - "54327"       # the multicast Hazelcast port
+    ports:
+      - "18086:8080"  # the HTTP endpoint
+    depends_on:
+      - message-queue
+      - hazelcast-payara
+    links:
+      - message-queue
+      - hazelcast-payara
+    networks:
+      - datanet
+
+  weather-sink:
+    image: lreimer/weather-file:1.0
+    ports:
+      - "18085:8080"  # the HTTP endpoint
+    depends_on:
+      - message-queue
+    links:
+      - message-queue
+    networks:
+      - datanet
+
+  weather-rdbms:
+      image: lreimer/weather-rdbms:1.0
+      ports:
+        - "18087:8080"  # the HTTP endpoint
+      depends_on:
+        - message-queue
+        - cockroach1
+      links:
+        - message-queue
+        - cockroach1
+      networks:
+        - datanet
 
 networks:
   datanet:
