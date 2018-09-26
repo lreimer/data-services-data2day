@@ -3,7 +3,15 @@
 This repository contains the showcase for my talk at data2day 2018 in Heidelberg.
 For details see: https://www.data2day.de/veranstaltung-7266-dataservices%3A-%7Bbig%2Cfast%2Csmart%7D-data-processing-mit-microservices.html?id=7266
 
-## Demo
+## Local Demo
+
+It is possible to launch the complete demo locally using Docker Compose. Make sure Docker can use at least
+4 GB of RAM. Then do:
+```
+$ docker-compose up -d
+```
+
+## Live Demo
 
 ### Building Block 1: Cloud-native Platform
 
