@@ -111,15 +111,21 @@ $ open http://localhost:8001/api/v1/namespaces/default/services/http:hazelcast-p
 
 ### Building Block 5: Dataservices
 
+Next we deploy our input, processor and output dataservices. The input here is
+the OpenWeather API, the processor stores current weather in IMDG and forwards
+the data to file and RDBMS.
 ```
-$ kubectl apply -f dataservices/processors/location/
+$ kubectl apply -f dataservices/input/weather/
 $ kubectl apply -f dataservices/processors/weather/
-
 $ kubectl apply -f dataservices/sink/weather-file/
 $ kubectl apply -f dataservices/sink/weather-rdbms/
+```
 
+These here simmulate car data flowing in from MQTT, database and CSV. The location
+is processed and put in the IMDG.
+```
 $ kubectl apply -f dataservices/input/csv/
 $ kubectl apply -f dataservices/input/database/
 $ kubectl apply -f dataservices/input/mqtt/
-$ kubectl apply -f dataservices/input/rest/
+$ kubectl apply -f dataservices/processors/location/
 ```
