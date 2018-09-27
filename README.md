@@ -137,3 +137,8 @@ $ kubectl apply -f dataservices/input/database/
 $ kubectl apply -f dataservices/input/mqtt/
 $ kubectl apply -f dataservices/processors/location/
 ```
+
+Once you are done, remember to delete the cluster again!
+```
+$ gcloud container clusters delete data2day-services
+```
