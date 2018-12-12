@@ -142,3 +142,12 @@ Once you are done, remember to delete the cluster again!
 ```
 $ gcloud container clusters delete data2day-services
 ```
+
+# Maintainer
+
+M.-Leander Reimer (@lreimer), <mario-leander.reimer@qaware.de>
+
+# License
+
+This software is provided under the MIT open source license, read the `LICENSE`
+file for details.
